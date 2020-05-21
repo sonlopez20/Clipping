@@ -1,0 +1,304 @@
+#----------------------------------------------------------------------
+Assignment 03
+
+#----------------------------------------------------------------------
+Purpose:
+
+  * Demonstrate ability to clip lines using the Cohen-Sutherland
+    algorithm.
+
+  * Demonstrate ability to write some additional (simple) C code.
+
+#----------------------------------------------------------------------
+Background:
+
+  * The Cohen-Sutherland algorithm is explained in the handout
+    posted to Canvas in the Modules section.
+
+  * The goal for this homework is to read lines (from a ".line"
+    file) and clip them using the Cohen-Sutherland algorithm and
+    the supplied view parameters (from a ".view" file).  The
+    clipped lines are then printed (along with the canvas size) to
+    create a viewable ".sdf" file.
+
+  * Line files have the following format.  (The basic structure is
+    the same as the SVFM file, just with different entries.)
+
+    - Blank lines are to be ignored.  (A blank line has no
+      characters at all or is just whitespace.)
+
+    - Lines with '#' as the first non-whitespace character are
+      comments and are to be ignored.
+
+    - A line with an 'l' as the first non-whitespace character is
+      a line line (ha!).  There will be four numbers following
+      the 'l': the p1X, p1Y, p2X, p2Y coordinates of the two
+      endpoints that define the line.  The 'l' and the coordinates
+      will be separated by whitespace.  Example:
+
+        l  237.4    123   8      96.1
+
+      Notice that the coodinates may be either integer or floating
+      point numbers.
+
+    - If a line starts with any other non-whitespace character, it
+      should be silently ignored.  ('silently' means you should
+      not print an error message.  Just ignore it.)
+
+  * View files are as described in the previous homework.
+
+#----------------------------------------------------------------------
+Tasks:
+
+  1. Download hmwk_03_dalioba.zip from Canvas.
+
+  2. Unzip the file somewhere convenient.
+
+  3. Change 'dalioba' in the name of the directory to your NetID.
+     (Your NetID is three letters followed by four or five digits.
+      The directory name will now be something like
+      'hmwk_03_abc1234' but with _your_ NetID in place of
+      'abc1234'.)
+
+  4. Look in that directory.
+
+  5. Change the header lines in the .c files.
+
+      -- Line 1:  Family name first, then a comma, then
+                  personal name.
+
+      -- Line 2:  Your NetID.
+
+      -- Line 3:  The date you edited the file, in the format
+                  YYYY-MM-DD.  (Four digits, a '-' character, two
+                  digits, a '-' character, two digits.)
+
+     These three lines must remain the first three lines in the
+     files.  Do NOT change anything in the header (.h) files.
+
+  6. There are a number of TODO: comments in the .c files that
+     need to be replaced with the appropriate C code.  (Do NOT
+     change anything in any .c file except to update the headers
+     and to replace a TODO comment with your code.)
+
+     Here's a list:
+
+hmwk_03.c:46:  // TODO: Read each line from the proposed line file (it was ...
+
+line.c:24:     // TODO: Implement the clipLine algorithm here. ...
+line.c:61:     // TODO: Print an 'l' line for the given Line l. ...
+line.c:67:     // TODO: Implement the region code computation here. ...
+
+     The Template/view.c file also has a couple of TODO spots in
+     it, but those are left over from Homework 02.  Just use the
+     view.c file you created for that previous homework.
+
+  7. When you have done so, compile and run everything as shown.
+
+     Notice that there are two input files being given to hmwk_03,
+     the first is the line file (Tests/pyramid_01.line) and the
+     second is the view file (Tests/pyramid_01.view).
+
+     You should observe the given output.
+
+$ gcc -o hmwk_03 hmwk_03.c line.c view.c
+$ ./hmwk_03 Tests/pyramid_01.line Tests/pyramid_01.view
+#- View parameters ---------------------
+# Bézier resolution :     0
+# Euler angles      :      0.000000,      0.000000,      0.000000
+# World limits      :     -1.000000,     -1.000000,      1.000000,      1.000000
+# Camera distance   :      0.000000
+# Canvas width      :   500
+# Canvas height     :   400
+# Screen limits     :      0.100000,      0.100000,      0.900000,      0.900000
+# Portal pixels     :   50,  450,   40,  360
+#---------------------------------------
+c  500  400
+l     50.0     40.0    450.0     40.0
+l    450.0     40.0    450.0    360.0
+l    450.0    360.0     50.0    360.0
+l     50.0    360.0     50.0     40.0
+l    410.0    328.0    410.0    200.0
+l    410.0    200.0    250.0    200.0
+l    250.0    200.0    410.0    328.0
+l    250.0    328.0    410.0    328.0
+l    410.0    328.0    250.0    200.0
+l    250.0    200.0    250.0    328.0
+l    410.0    200.0    330.0    264.0
+l    330.0    264.0    250.0    200.0
+l    250.0    200.0    410.0    200.0
+l    330.0    264.0    250.0    328.0
+l    250.0    328.0    250.0    200.0
+l    250.0    200.0    330.0    264.0
+l    410.0    200.0    410.0    328.0
+l    410.0    328.0    330.0    264.0
+l    330.0    264.0    410.0    200.0
+l    250.0    328.0    330.0    264.0
+l    330.0    264.0    410.0    328.0
+l    410.0    328.0    250.0    328.0
+#- Line statistics ---------------------
+#     22 lines drawn.
+#      0 lines rejected.
+#---------------------------------------
+$
+
+     Your output should match this EXACTLY.  'EXACTLY' means just
+     that.  It should be the same character-by-character.  When
+     your program is tested, it will be run against other data
+     files and the output compared using diff.
+
+  8. There are a number of line files in Tests/ along with a view
+     file for each.  Run all of these tests and compare your
+     results to those given in Results/.  Your output should match
+     EXACTLY.
+
+  9. Use diff (fc on Windows) to compare your output to that of
+     the results file.  They should match with NO DIFFERENCES.
+
+     (Remember that line endings can be different among Linux,
+      MacOS, and (shudder) Windows, so do your comparisons
+      ignoring only the line endings.  The SPACING within the
+      lines however should be identical.)
+
+ 10. Save the output of hmwk_03 in a file with the '.sdf'
+     extension and use the Display tool to view it.  (See the
+     Display tool posting on Canvas for more info.  The SDF files
+     in Results/ are all viewable with the Display tool.)
+
+     Your display should look like the images in Screenshots/.
+
+#----------------------------------------------------------------------
+Submission:
+
+Make a zipfile of your 'hmwk_03_abc1234' directory (with your
+source files in it) and submit it on Canvas as your results
+for this assignment.
+
+You can get dinged points for work not in the proper format so
+even if your program works (and works correctly!), you might not
+earn full credit.  Check your work!
+
+#----------------------------------------------------------------------
+Hints:
+  1. Ensure your program compiles and runs correctly.  Not
+     compiling or not generating the correct output as shown in
+     the results files will cost you points.
+
+     In particular, a program that crashes (e.g., generates a
+     segmentation fault (SIGSEGV)), scores ZERO credit, no matter
+     what output it generates.
+
+     The output from your program will be compared using diff
+     against the reference results so ensure you DO NOT CHANGE
+     anything aside from the indicated TODO spots.  In particular,
+     do not change ANYTHING in the header (.h) files.
+
+     Ensure that your output matches EXACTLY that shown in the
+     corresponding results file.  'EXACTLY' mean just that.  It
+     must be identical character-by-character.  No differences in
+     spacing, values, punctuation, etc.
+
+     (Remember that line endings can be different among Linux,
+      MacOS, and (shudder) Windows, so do your comparisons
+      ignoring only the line endings.  The SPACING within the
+      lines however should be identical.)
+
+  2. Ensure that you update the three header lines in the source
+     .c files that you change with YOUR name (family name first,
+     then a comma, then your personal name), YOUR NetID, and the
+     date you edit the file (in the format YYYY-MM-DD, four
+     digits, a '-' character, two digits, a '-' character, two
+     digits).
+
+     Not updating the header lines properly will cost you points.
+
+     Not having the header lines as the first three lines in the
+     files will cost you points.
+
+  3. This is not a hard assignment.  There are only four (4) TODO
+     spots that need to be filled in.
+
+hmwk_03.c:46:  // TODO: Read each line from the proposed line file (it was ...
+     - Thirty-two (32) lines of code.
+
+       Use a Line structure to hold the two endpoints of the line
+       that you read.  You also pass a pointer to this structure
+       to the clipLine() routine.
+
+       Don't forget to count how many lines were drawn and how
+       many were rejected so you can print the Statistics messages
+       after all of the lines.
+
+       Ensure that you get the spacing of the Statistics messages
+       correct.  (Hint: print the number with %6d.)
+
+line.c:24:     // TODO: Implement the clipLine algorithm here. ...
+     - Forty-one (41) lines of code.
+
+       This code generally follows that of the pseudo-Python
+       version given the clipping handout, but since it's in C you
+       have to think a bit about how it's coded.
+
+       Don't forget to update the points in the passed Line
+       structure if you change them.  Also, don't forget to update
+       the region code when you change a point.
+
+line.c:61:     // TODO: Print an 'l' line for the given Line l. ...
+     - Two (2) lines of code.  (A printf call split over two
+       lines.)
+
+line.c:67:     // TODO: Implement the region code computation here. ...
+     - Twelve (12) lines of code.
+
+       Aside from the required EPSILON processing, this routine
+       pretty much follows the pseudo-Python version given in the
+       clipping handout.
+
+     That's only eighty-seven (87) lines of code in total.  No big
+     deal!
+
+     By the way, don't get too concerned if you don't get the same
+     number of lines of code that I state here.  These numbers are
+     just a guide so you can see if you're on the correct track or
+     not.
+
+     It's OK to have a few more or less when you write it.  (I put
+     all closing braces on their own lines, so my code tends to be
+     a tad longer at times.)
+
+     On the other hand, if you find yourself writing a LOT more
+     code than this, you're probably going down the wrong track.
+
+  4. Ensure your submission is packaged EXACTLY as described above.
+
+      -- Your submission should be a ZIP FILE (not a tar, rar, gz,
+         or any other kind of compressed file).
+
+      -- The zip file should be named 'hmwk_03_abc1234.zip' (with
+         'abc1234' replaced with YOUR NetID).
+
+      -- This zip file should have ONE item in it, a directory
+         named 'hmwk_03_abc1234'  (with 'abc1234' replaced with
+         YOUR NetID).
+
+      -- Your source files should be in that directory.  Do NOT
+         change the names of any of the source files.  They
+         should be hmwk_02.c and line.c.  You do not need to
+         include any other files.
+
+         (They will just be replaced with the reference solution
+          versions anyway.)
+
+     Submissions in the wrong format score ZERO points.
+
+  5. After you submit your zip file on Canvas, download it from
+     Canvas and check that your submission is in the proper
+     format, that the program runs and prints the correct output,
+     and that you updated the header lines correctly in the .c
+     source files.
+
+  6. Are you CERTAIN you complied with all of these nit-picking
+     instructions?  Really?  Maybe you ought to check just one
+     more time. :)
+
+#----------------------------------------------------------------------
